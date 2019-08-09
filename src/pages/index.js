@@ -1,10 +1,27 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled, { css } from "styled-components"
 import Layout from "ui/layout/layout"
 import girl from "img/sitting.svg"
 import boy from "img/standing.svg"
 import CallToAction from "ui/components/callToAction"
+import { useSpring, animated, config, interpolate } from "react-spring"
+
 export default () => {
+  const [{ scrollY }, setY] = useSpring(() => ({
+    scrollY: 0,
+    config: config.gentle,
+  }))
+
+  function onScroll() {
+    setY({ scrollY: window.scrollY })
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll)
+
+    // return window.removeEventListener("scroll", onScroll)
+  }, [])
+
   return (
     <Layout>
       <Section
@@ -27,10 +44,17 @@ export default () => {
             carrot cake.
           </p>
         </Area>
-        <Area area="girl">
-          <img src={girl} alt="" />
+
+        <Area
+          area="girl"
+          style={{
+            transform: scrollY.interpolate(y => `translateY(${0.1 * y}px)`),
+          }}
+        >
+          <img src={girl} alt="girl" />
         </Area>
       </Section>
+
       <Section
         gridArea={`"title2""par2"`}
         gridAreaTablet={`"par2 title2"`}
@@ -67,7 +91,14 @@ export default () => {
           align-items: center;
         `}
       >
-        <Area area="boy">
+        <Area
+          area="boy"
+          style={{
+            transform: scrollY.interpolate(
+              y => `translateY(${0.1 * y - 100}px)`
+            ),
+          }}
+        >
           <img src={boy} alt="" />
         </Area>
         <Area
@@ -95,51 +126,6 @@ export default () => {
   )
 }
 
-// const Grid = styled.div`
-//   display: grid;
-//   justify-content: center;
-//   align-items: center;
-//   grid-gap: 1em;
-//   grid-template-areas:
-//     "title1"
-//     "par1"
-//     "girl"
-//     "title2"
-//     "par2"
-//     "boy"
-//     "par3"
-//     "cta";
-
-//   margin: 0 1em;
-//   margin-top: 5em;
-
-//   img {
-//     max-width: 100%;
-//   }
-
-//   @media (orientation: landscape),
-//     (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-//     grid-template-columns: 1fr 1fr;
-//     grid-template-areas:
-//       "title1 title1"
-//       "par1 girl"
-//       "title2 title2"
-//       "par2 par2"
-//       "boy par3"
-//       "boy cta";
-//   }
-//   @media (min-width: ${({ theme }) => theme.breakpoints.laptop}) {
-//     margin: 0 5em;
-//     margin-top: 5em;
-//     grid-template-areas:
-//       "title1 title1"
-//       "par1 girl"
-//       "par2 title2"
-//       "boy par3"
-//       "boy cta";
-//   }
-// `
-
 const Section = styled.section`
   display: grid;
   grid-gap: 0 4em;
@@ -164,6 +150,6 @@ const Section = styled.section`
   }
 `
 
-const Area = styled.div`
+const Area = styled(animated.div)`
   grid-area: ${({ area }) => `${area}`};
 `
