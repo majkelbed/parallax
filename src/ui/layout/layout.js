@@ -1,6 +1,6 @@
 import React from "react"
 import theme from "ui/theme/theme"
-import Nav from "components/nav/nav"
+import Nav from "components/nav"
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components"
 
 const Global = createGlobalStyle`
@@ -13,23 +13,23 @@ const Global = createGlobalStyle`
         box-sizing:border-box;
     }
     body{
-        background:${({ theme }) => theme.colors.white};
+        background:${({ theme }) => theme.colors.background};
         color:${({ theme }) => theme.colors.primary};
         font-family: 'Cormorant', serif;
         font-size: calc(12px + 0.35vw);
         line-height: calc(12px + 1.05vw);
     }
-    h1, h2, h3{
+    h1, h2, h3, button{
         font-family: 'Nunito', sans-serif;
         margin: calc(12px + 1.05vw) 0;
     }
     h1 {
-    font-size: 1.912em;
-    line-height: calc(18px + 1.8vw);
+    font-size: 4em;
+    line-height: calc(50px + 2.5vw);
     }
 
     h2 {
-    font-size: 1.616em;
+    font-size: 4em;
     line-height: calc(18px + 1vw); 
     }
 
@@ -39,8 +39,10 @@ const Global = createGlobalStyle`
     }
     p{
       font-size: 2.471em;
-    line-height: calc(18px + 1.4vw); 
-    color:${({ theme }) => theme.colors.graphite}
+    line-height: calc(25px + 1.5vw); 
+    }
+    img{
+      max-width:100%;
     }
 `
 
@@ -50,17 +52,10 @@ const Layout = ({ children }) => {
       <>
         <Global />
         <Nav />
-        <Wraper>{children}</Wraper>
+        {children}
       </>
     </ThemeProvider>
   )
 }
 
 export default Layout
-
-const Wraper = styled.div`
-  display: grid;
-  grid-gap: 4em;
-
-  overflow-x: hidden;
-`
