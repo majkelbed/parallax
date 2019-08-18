@@ -31,7 +31,7 @@ const Global = createGlobalStyle`
 
     h2 {
     font-size: 4em;
-    line-height: calc(18px + 1vw); 
+    line-height: calc(40px + 2vw); 
     }
 
     h3 {

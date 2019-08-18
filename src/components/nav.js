@@ -124,13 +124,15 @@ const ClosingToggle = styled(Toggle)`
 
 const StyledExpandingNav = styled.nav`
   position: absolute;
-  top: 150%;
+  top: 120%;
   left: 0;
   right: 0;
   margin: 0 auto;
 
-  width: 100%;
-  height: 500px;
+  width: 75vw;
+  max-width: 400px;
+  height: 75vh;
+  max-height: 550px;
 
   display: flex;
   flex-direction: column;
