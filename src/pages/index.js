@@ -111,7 +111,9 @@ export default () => {
           <h2
             css={css`
               color: ${({ theme }) => theme.colors.secondary};
-              text-align: center;
+              @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+                text-align: center;
+              }
             `}
           >
             Jelly beans
@@ -137,6 +139,12 @@ export default () => {
       >
         <Area
           area="boy"
+          css={css`
+            margin-bottom: 7em;
+            @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+              margin-bottom: 0;
+            }
+          `}
           style={{
             transform: scrollY.interpolate(
               y => `translateY(${0.1 * y - 100}px)`
