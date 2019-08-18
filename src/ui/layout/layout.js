@@ -1,11 +1,11 @@
 import React from "react"
 import theme from "ui/theme/theme"
 import Nav from "components/nav"
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components"
+import { ThemeProvider, createGlobalStyle } from "styled-components"
 
 const Global = createGlobalStyle`
 
-    @import url('https://fonts.googleapis.com/css?family=Cormorant|Nunito:700&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Cormorant:400i|Nunito:700&display=swap');
 
     *{
         margin:0;
@@ -18,6 +18,7 @@ const Global = createGlobalStyle`
         font-family: 'Cormorant', serif;
         font-size: calc(12px + 0.35vw);
         line-height: calc(12px + 1.05vw);
+        overflow-x:hidden;
     }
     h1, h2, h3, button{
         font-family: 'Nunito', sans-serif;
@@ -43,6 +44,11 @@ const Global = createGlobalStyle`
     }
     img{
       max-width:100%;
+      z-index:0;
+    }
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 `
 

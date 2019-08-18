@@ -4,11 +4,36 @@ import Layout from "ui/layout/layout"
 import girl from "img/sitting.svg"
 import boy from "img/standing.svg"
 import CallToAction from "ui/components/callToAction"
-import { useSpring, animated, config, interpolate } from "react-spring"
+import { useSpring, animated, config } from "react-spring"
+import { useInView } from "react-intersection-observer"
+import { useGesture } from "react-with-gesture"
 
 export default () => {
   const [{ scrollY }, setY] = useSpring(() => ({
     scrollY: 0,
+    config: config.molasses,
+  }))
+
+  const [{ xy }, setXY] = useSpring(() => ({
+    xy: [0, 0],
+  }))
+
+  const bind = useGesture(({ down, delta, velocity, event }) => {
+    event.preventDefault()
+    velocity = 1
+    setXY({
+      xy: down ? delta : [0, 0],
+      config: { mass: velocity, tensions: 500 * velocity, friction: 50 },
+    })
+  })
+
+  const [ref, inView] = useInView({
+    threshold: 0.25,
+  })
+
+  const [{ opacity, x }, setProps] = useSpring(() => ({
+    opacity: 0,
+    x: 200,
     config: config.gentle,
   }))
 
@@ -19,8 +44,14 @@ export default () => {
   useEffect(() => {
     window.addEventListener("scroll", onScroll)
 
-    // return window.removeEventListener("scroll", onScroll)
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+    }
   }, [])
+
+  useEffect(() => {
+    setProps(inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 200 })
+  }, [inView])
 
   return (
     <Layout>
@@ -45,13 +76,18 @@ export default () => {
           </p>
         </Area>
 
-        <Area
-          area="girl"
-          style={{
-            transform: scrollY.interpolate(y => `translateY(${0.1 * y}px)`),
-          }}
-        >
-          <img src={girl} alt="girl" />
+        <Area area="girl">
+          <animated.img
+            src={girl}
+            alt="girl"
+            {...bind()}
+            style={{
+              transform: xy.interpolate(
+                (x, y) => `translate3d(${x}px,${y}px,0)`
+              ),
+              cursor: "all-scroll",
+            }}
+          />
         </Area>
       </Section>
 
@@ -59,15 +95,23 @@ export default () => {
         gridArea={`"title2""par2"`}
         gridAreaTablet={`"par2 title2"`}
         gridAreaLaptop={`"par2 title2"`}
+        ref={ref}
         css={css`
           align-items: center;
           background: ${({ theme }) => theme.colors.backgroundBlue};
         `}
       >
-        <Area area="title2">
+        <Area
+          area="title2"
+          style={{
+            opacity: opacity,
+            transform: x.interpolate(x => `translate(${x}px,0)`),
+          }}
+        >
           <h2
             css={css`
               color: ${({ theme }) => theme.colors.secondary};
+              text-align: center;
             `}
           >
             Jelly beans
