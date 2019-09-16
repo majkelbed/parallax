@@ -7,7 +7,7 @@ https://www.gatsbyjs.org/docs/quick-start/
 `npm install -g gatsby-cli`
 
 inside project folder
-`gatsby develop`
+`npm run dev`
 
 Gatsby will start a hot-reloading development environment accessible by default at `localhost:8000`
 

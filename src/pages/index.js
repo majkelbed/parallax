@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
-import Layout from "ui/layout/layout"
-import girl from "img/sitting.svg"
-import boy from "img/standing.svg"
-import CallToAction from "ui/components/callToAction"
-import { useSpring, animated, config } from "react-spring"
+import Layout from "@components/layout/layout"
+import girl from "@img/sitting.svg"
+import boy from "@img/standing.svg"
+import CallToAction from "@components/callToAction"
+import { useSpring, useTransition, animated, config } from "react-spring"
 import { useInView } from "react-intersection-observer"
 import { useGesture } from "react-with-gesture"
 
@@ -53,6 +53,7 @@ export default () => {
     setProps(inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 200 })
   }, [inView])
 
+  const CTA = animated(CallToAction)
   return (
     <Layout>
       <Section
@@ -171,7 +172,7 @@ export default () => {
             align-self: flex-start;
           `}
         >
-          <CallToAction>cheesecake muffin</CallToAction>
+          <CTA>cheesecake muffin</CTA>
         </Area>
       </Section>
     </Layout>

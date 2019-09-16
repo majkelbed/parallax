@@ -1,6 +1,6 @@
 import React from "react"
-import theme from "ui/theme/theme"
-import Nav from "components/nav"
+import theme from "@components/theme/theme"
+import Nav from "@components/nav/nav"
 import { ThemeProvider, createGlobalStyle } from "styled-components"
 
 const Global = createGlobalStyle`

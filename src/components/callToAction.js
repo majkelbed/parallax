@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
-const CallToAction = ({ children }) => {
-  return <StyledButton>{children}</StyledButton>
+const CallToAction = ({ children, style }) => {
+  return <StyledButton style={style}>{children}</StyledButton>
 }
 
 export default CallToAction
